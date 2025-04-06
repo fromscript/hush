@@ -14,7 +14,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-//go:embed ../internal/database/migrations/*.sql
+//go:embed migrations/*.sql
 var migrationsFS embed.FS
 
 func main() {
