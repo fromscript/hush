@@ -1,14 +1,16 @@
 export interface WebSocketMessage {
   type: 'message' | 'system' | 'join'
-  payload: string
+  payload: any
   timestamp?: number
   sessionId?: string
 }
 
-export interface WebSocketState {
-  status: 'disconnected' | 'connecting' | 'connected'
-  messages: WebSocketMessage[]
-  error: string | null
-  connect: (url: string, token: string) => void
-  sendMessage: (message: WebSocketMessage) => void
+export type WebSocketState = {
+  status: 'disconnected' | 'connecting' | 'connected';
+  messages: WebSocketMessage[];
+  error: string | null;
+  connect: (url: string, token: string) => void;
+  sendMessage: (message: WebSocketMessage) => void;
+  joinRoom: (roomID: string) => void;
+  sendChatMessage: (content: string) => void;
 }

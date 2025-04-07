@@ -5,7 +5,7 @@ import { useWebSocket } from '@/components/providers/websocket-provider'
 import { Message } from '@/components/chat/message'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import {useState} from "react";
+import { useState } from "react"
 
 export function ChatWindow() {
   const { messages, sendMessage, status } = useWebSocket()
@@ -16,7 +16,7 @@ export function ChatWindow() {
     if (input.trim() && status === 'connected') {
       sendMessage({
         type: 'message',
-        payload: JSON.stringify({ text: input }),
+        payload: { content: input }, // Changed to content field
         timestamp: Date.now()
       })
       setInput('')
@@ -27,7 +27,7 @@ export function ChatWindow() {
     if (roomId.trim() && status === 'connected') {
       sendMessage({
         type: 'join',
-        payload: JSON.stringify({ roomId }),
+        payload: { roomID: roomId }, // Corrected field name
         timestamp: Date.now()
       })
     }

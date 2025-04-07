@@ -1,8 +1,8 @@
-// cmd/migrate/main.go
 package main
 
 import (
 	"embed"
+	"errors"
 	"fmt"
 	"log"
 	"net/url"
@@ -18,9 +18,10 @@ import (
 var migrationsFS embed.FS
 
 func main() {
-	// Load environment variables
-	if err := godotenv.Load(); err != nil {
-		log.Fatal("Error loading .env file")
+	// Load environment variables from .env if it exists
+	err := godotenv.Load()
+	if err != nil && !errors.Is(err, os.ErrNotExist) {
+		log.Fatalf("Error loading .env file: %v", err)
 	}
 
 	// Create database URL

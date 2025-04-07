@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input'
 export function ConnectionForm() {
   const { connect } = useWebSocket()
   const [formData, setFormData] = useState({
-    url: process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:8080/ws',
+    url: process.env.NEXT_PUBLIC_WS_URL || 'ws://server:8080/ws',
     token: ''
   })
 

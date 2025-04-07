@@ -68,6 +68,7 @@ func (dm *DefaultManager) handleConnection(client *models.Client) {
 
 	go dm.readPump(ctx, client)
 	dm.writePump(ctx, client)
+	slog.Info("Connection created")
 }
 
 func (dm *DefaultManager) readPump(ctx context.Context, client *models.Client) {
@@ -86,6 +87,7 @@ func (dm *DefaultManager) readPump(ctx context.Context, client *models.Client) {
 
 		var msg models.Message
 		if err := json.Unmarshal(data, &msg); err != nil {
+			slog.Info("Read error", "session", client.SessionID, "error", err, "for message", string(data))
 			slog.Warn("Invalid message format", "session", client.SessionID, "error", err)
 			continue
 		}

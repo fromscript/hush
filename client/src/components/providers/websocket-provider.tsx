@@ -39,7 +39,7 @@ export function WebSocketProvider({ children }: { children: React.ReactNode }) {
       ws.current.onmessage = (event) => {
         if (!isMounted) return
         try {
-          const message = JSON.parse(event.data)
+          const message = JSON.parse(event.data) as WebSocketMessage
           setMessages(prev => [...prev, message])
         } catch (err) {
           console.error('Invalid message format:', err)
@@ -75,6 +75,21 @@ export function WebSocketProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
+  const joinRoom = (roomID: string) => {
+    sendMessage({
+      type: 'join',
+      payload: { roomID }
+    })
+  }
+
+  // Helper method for sending chat messages
+  const sendChatMessage = (content: string) => {
+    sendMessage({
+      type: 'message',
+      payload: { content }
+    })
+  }
+
   if (!isMounted) return null
 
   return (
@@ -83,7 +98,9 @@ export function WebSocketProvider({ children }: { children: React.ReactNode }) {
       messages,
       error,
       connect,
-      sendMessage
+      sendMessage,
+      joinRoom,
+      sendChatMessage
     }}>
       {children}
     </WebSocketContext.Provider>

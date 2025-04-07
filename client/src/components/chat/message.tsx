@@ -2,7 +2,7 @@
 'use client'
 
 import { cn } from '@/lib/utils'
-import {WebSocketMessage} from "@/lib/websocket/types";
+import { WebSocketMessage } from "@/lib/websocket/types"
 
 interface MessageProps {
   message: WebSocketMessage
@@ -10,7 +10,14 @@ interface MessageProps {
 
 export function Message({ message }: MessageProps) {
   const isSystem = message.type === 'system'
-  const content = JSON.parse(message.payload)
+
+  // Handle different payload types
+  const getContent = () => {
+    if (typeof message.payload === 'string') {
+      return message.payload
+    }
+    return message.payload.content || message.payload.text || ''
+  }
 
   return (
     <div className={cn(
@@ -20,7 +27,7 @@ export function Message({ message }: MessageProps) {
       <div className="text-sm font-medium mb-1">
         {isSystem ? 'System' : 'You'}
       </div>
-      <div className="text-sm">{content.text}</div>
+      <div className="text-sm">{getContent()}</div>
       {message.timestamp && (
         <div className="text-xs mt-2 opacity-70">
           {new Date(message.timestamp).toLocaleTimeString()}
